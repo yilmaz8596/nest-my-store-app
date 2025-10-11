@@ -88,9 +88,19 @@ async function bootstrap() {
     }
   }
 
-  // Add additional static file serving for images specifically
-  app.use('/images', express.static(join(publicPath, 'images')));
+  // Serve static assets
+  // In production, images are in dist/images, in dev they're in public/images
+  const imagesPath = isProduction
+    ? join(__dirname, 'images')
+    : join(__dirname, '..', 'public', 'images');
 
+  console.log('🗂️  Images path for static serving:', imagesPath);
+  console.log('🗂️  Images path exists:', existsSync(imagesPath));
+
+  // Serve images from /images route
+  app.use('/images', express.static(imagesPath));
+
+  // Also serve other static assets from public path
   app.useStaticAssets(publicPath);
   app.setBaseViewsDir(viewsPath);
   app.setViewEngine('ejs');
