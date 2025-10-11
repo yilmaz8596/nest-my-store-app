@@ -54,11 +54,11 @@ async function bootstrap() {
   const isProduction = __dirname.includes('dist') || process.env.RENDER;
 
   const publicPath = isProduction
-    ? join(__dirname, 'public') // In production, files are copied to dist/public
+    ? join(__dirname) // In production, NestJS copies public files directly to dist/
     : join(__dirname, '..', 'public'); // In development, files are in project root
 
   const viewsPath = isProduction
-    ? join(__dirname, 'views') // In production, files are copied to dist/views
+    ? join(__dirname) // In production, NestJS copies views directly to dist/
     : join(__dirname, '..', 'views'); // In development, files are in project root
 
   console.log('🗂️  Is Production:', isProduction);
