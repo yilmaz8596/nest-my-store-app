@@ -45,7 +45,7 @@ const getDatabaseConfig = () => {
     TypeOrmModule.forRoot({
       ...getDatabaseConfig(),
       entities: [Product, User],
-      logging: process.env.NODE_ENV === 'development', // Enable logging in development
+      logging: process.env.NODE_ENV === 'development',
     }),
     ProductsModule,
     UserModule,

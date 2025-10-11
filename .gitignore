@@ -60,6 +60,6 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 *.db-shm
 *.db-wal
 
-# Uploaded files
-/public/images/*
-!.gitkeep
+# Uploaded files (ignore user uploads but keep seed images)
+/public/images/product-*.jpg
+/public/images/product-*.png

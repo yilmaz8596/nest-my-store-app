@@ -72,13 +72,11 @@ export class DatabaseSeeder {
     console.log('👤 Seeding users...');
 
     for (const userData of seedUsers) {
-      // Check if user already exists
       const existingUser = await userRepository.findOne({
         where: [{ username: userData.username }, { email: userData.email }],
       });
 
       if (!existingUser) {
-        // Hash password
         const hashedPassword = await bcrypt.hash(userData.password, 10);
 
         const user = userRepository.create({
@@ -104,7 +102,6 @@ export class DatabaseSeeder {
     console.log('📦 Seeding products...');
 
     for (const productData of seedProducts) {
-      // Check if product already exists
       const existingProduct = await productRepository.findOne({
         where: { name: productData.name },
       });

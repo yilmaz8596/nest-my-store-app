@@ -13,7 +13,6 @@ export class UserService {
   ) {}
 
   async createUser(user: UserDTO) {
-    // Hash the password before saving
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(user.password, saltRounds);
 
@@ -24,8 +23,6 @@ export class UserService {
 
     const savedUser = await this.userRepository.save(newUser);
 
-    // Return user without password
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...userWithoutPassword } = savedUser;
     return userWithoutPassword;
   }
@@ -44,7 +41,6 @@ export class UserService {
     };
   }
 
-  // Method to find user by ID without password
   async findUserById(
     userId: number,
   ): Promise<Omit<UserDTO, 'password'> | null> {
@@ -59,13 +55,11 @@ export class UserService {
     };
   }
 
-  // Method to find user with password for authentication
   async findUserByEmailWithPassword(email: string): Promise<UserDTO | null> {
     const user = await this.userRepository.findOneBy({ email });
     return user;
   }
 
-  // Method to verify password
   async validatePassword(
     plainPassword: string,
     hashedPassword: string,
