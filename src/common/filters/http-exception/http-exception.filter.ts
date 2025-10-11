@@ -30,15 +30,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     console.log('Error Response:', errorResponse);
 
-    // Try to render error template, fall back to JSON if template fails
-    try {
-      response.status(status).render('error', { error: errorResponse });
-    } catch (renderError) {
-      console.log(
-        'Error rendering template, falling back to JSON:',
-        renderError,
-      );
-      response.status(status).json(errorResponse);
-    }
+    // Temporarily disable template rendering and use JSON for all errors
+    // TODO: Re-enable template rendering once views directory issue is resolved
+    response.status(status).json(errorResponse);
   }
 }

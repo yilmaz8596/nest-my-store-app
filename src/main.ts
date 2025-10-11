@@ -73,9 +73,19 @@ async function bootstrap() {
   console.log('🗂️  Public directory exists:', existsSync(publicPath));
   if (existsSync(viewsPath)) {
     console.log('🗂️  Views directory contents:', readdirSync(viewsPath));
+    console.log(
+      '🗂️  Error template exists:',
+      existsSync(join(viewsPath, 'error.ejs')),
+    );
   }
   if (existsSync(publicPath)) {
     console.log('🗂️  Public directory contents:', readdirSync(publicPath));
+    if (existsSync(join(publicPath, 'images'))) {
+      console.log(
+        '🗂️  Images directory contents:',
+        readdirSync(join(publicPath, 'images')),
+      );
+    }
   }
 
   // Add additional static file serving for images specifically
