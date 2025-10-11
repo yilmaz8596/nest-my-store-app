@@ -28,7 +28,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
       message: message,
     };
 
-    console.log('Error Response:', errorResponse);
+    console.log('❌ Error caught by filter:', errorResponse);
+    console.log('❌ Exception details:', exception);
+    if (exception instanceof Error) {
+      console.log('❌ Error stack:', exception.stack);
+    }
 
     // Temporarily disable template rendering and use JSON for all errors
     // TODO: Re-enable template rendering once views directory issue is resolved
