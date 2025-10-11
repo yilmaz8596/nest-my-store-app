@@ -47,8 +47,28 @@ async function bootstrap() {
   app.use(methodOverride('_method'));
 
   app.useGlobalPipes(new ValidationPipe());
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+
+  // Configure static assets path for production/development
+  const publicPath =
+    process.env.NODE_ENV === 'production'
+      ? join(__dirname, 'public') // In production, files are copied to dist/public
+      : join(__dirname, '..', 'public'); // In development, files are in project root
+
+  const viewsPath =
+    process.env.NODE_ENV === 'production'
+      ? join(__dirname, 'views') // In production, files are copied to dist/views
+      : join(__dirname, '..', 'views'); // In development, files are in project root
+
+  console.log('🗂️  Static assets path:', publicPath);
+  console.log('🗂️  Views path:', viewsPath);
+  console.log('🗂️  __dirname:', __dirname);
+  console.log('🗂️  NODE_ENV:', process.env.NODE_ENV);
+
+  // Add additional static file serving for images specifically
+  app.use('/images', express.static(join(publicPath, 'images')));
+
+  app.useStaticAssets(publicPath);
+  app.setBaseViewsDir(viewsPath);
   app.setViewEngine('ejs');
   await app.listen(process.env.PORT ?? 3000);
 }

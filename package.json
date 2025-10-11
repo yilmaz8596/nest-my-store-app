@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build && npm run copy-assets",
-    "copy-assets": "node -e \"const fs=require('fs-extra'); fs.copySync('public', 'dist/public'); fs.copySync('views', 'dist/views');\"",
+    "copy-assets": "node -e \"const fs=require('fs-extra'); console.log('Copying public to dist/public...'); fs.copySync('public', 'dist/public'); console.log('Copying views to dist/views...'); fs.copySync('views', 'dist/views'); console.log('Copy completed!');\"",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "seed": "ts-node src/scripts/seed.ts",
     "start": "nest start",
