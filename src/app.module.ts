@@ -10,9 +10,14 @@ import { SeedService } from './database/seed.service';
 
 // Database configuration based on environment
 const getDatabaseConfig = () => {
-  const isProduction = process.env.NODE_ENV === 'production';
+  // Check if we have PostgreSQL environment variables
+  const hasPostgresConfig =
+    process.env.DB_HOST &&
+    process.env.DB_NAME &&
+    process.env.DB_USERNAME &&
+    process.env.DB_PASSWORD;
 
-  if (isProduction) {
+  if (hasPostgresConfig) {
     // PostgreSQL configuration for production
     return {
       type: 'postgres' as const,
@@ -23,14 +28,14 @@ const getDatabaseConfig = () => {
       database: process.env.DB_NAME,
       ssl:
         process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
-      synchronize: false, // Always false in production
+      synchronize: false, // Always false in production with PostgreSQL
     };
   } else {
-    // SQLite configuration for development
+    // SQLite configuration for development/deployment without PostgreSQL
     return {
       type: 'sqlite' as const,
       database: process.env.SQLITE_DATABASE || 'mystore.db',
-      synchronize: true, // OK for development
+      synchronize: true, // OK for SQLite
     };
   }
 };

@@ -7,9 +7,15 @@ import { DatabaseSeeder } from '../database/seeder';
 
 // Database configuration based on environment
 const getDatabaseConfig = () => {
-  const isProduction = process.env.NODE_ENV === 'production';
+  // Check if we have PostgreSQL environment variables
+  const hasPostgresConfig =
+    process.env.DB_HOST &&
+    process.env.DB_NAME &&
+    process.env.DB_USERNAME &&
+    process.env.DB_PASSWORD;
 
-  if (isProduction) {
+  if (hasPostgresConfig) {
+    console.log('🐘 Using PostgreSQL configuration');
     return {
       type: 'postgres' as const,
       host: process.env.DB_HOST,
@@ -21,6 +27,7 @@ const getDatabaseConfig = () => {
         process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
     };
   } else {
+    console.log('📁 Using SQLite configuration');
     return {
       type: 'sqlite' as const,
       database: process.env.SQLITE_DATABASE || 'mystore.db',
@@ -34,13 +41,17 @@ async function runSeeder() {
   const dataSource = new DataSource({
     ...getDatabaseConfig(),
     entities: [Product, User],
-    synchronize: false,
+    synchronize: true, // Enable synchronize to create tables if they don't exist
     logging: true,
   });
 
   try {
     await dataSource.initialize();
     console.log('✅ Database connection established');
+
+    // Synchronize will create tables if they don't exist
+    await dataSource.synchronize();
+    console.log('📋 Database schema synchronized');
 
     const seeder = new DatabaseSeeder(dataSource);
     await seeder.seed();
