@@ -49,20 +49,23 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   // Configure static assets path for production/development
-  const publicPath =
-    process.env.NODE_ENV === 'production'
-      ? join(__dirname, 'public') // In production, files are copied to dist/public
-      : join(__dirname, '..', 'public'); // In development, files are in project root
+  // Check if we're in a build directory (production) or source directory (development)
+  const isProduction = __dirname.includes('dist') || process.env.RENDER;
+  
+  const publicPath = isProduction 
+    ? join(__dirname, 'public') // In production, files are copied to dist/public
+    : join(__dirname, '..', 'public'); // In development, files are in project root
 
-  const viewsPath =
-    process.env.NODE_ENV === 'production'
-      ? join(__dirname, 'views') // In production, files are copied to dist/views
-      : join(__dirname, '..', 'views'); // In development, files are in project root
+  const viewsPath = isProduction
+    ? join(__dirname, 'views') // In production, files are copied to dist/views
+    : join(__dirname, '..', 'views'); // In development, files are in project root
 
+  console.log('🗂️  Is Production:', isProduction);
   console.log('🗂️  Static assets path:', publicPath);
   console.log('🗂️  Views path:', viewsPath);
   console.log('🗂️  __dirname:', __dirname);
   console.log('🗂️  NODE_ENV:', process.env.NODE_ENV);
+  console.log('🗂️  RENDER env var:', process.env.RENDER);
 
   // Add additional static file serving for images specifically
   app.use('/images', express.static(join(publicPath, 'images')));
