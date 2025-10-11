@@ -173,7 +173,6 @@ export class ProductsController {
     @Res() res: Response,
     @Req() req: Request,
   ) {
-    // Check if user is admin
     const userId = req.cookies?.userId;
     let user: Omit<UserDTO, 'password'> | null = null;
 
@@ -251,7 +250,6 @@ export class ProductsController {
     console.log('Update Product - Body:', productData);
     console.log('Update Product - File:', file);
 
-    // Check if user is admin
     const userId = req.cookies?.userId;
     let user: Omit<UserDTO, 'password'> | null = null;
 
@@ -309,7 +307,6 @@ export class ProductsController {
     @Res() res: Response,
     @Req() req: Request,
   ) {
-    // Check if user is admin
     const userId = req.cookies?.userId;
     let user: Omit<UserDTO, 'password'> | null = null;
 
