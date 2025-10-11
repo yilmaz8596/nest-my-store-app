@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+import { AppController, RootController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductsModule } from './products/module/products.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -50,7 +50,7 @@ const getDatabaseConfig = () => {
     ProductsModule,
     UserModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, RootController],
   providers: [AppService, SeedService],
 })
 export class AppModule {}

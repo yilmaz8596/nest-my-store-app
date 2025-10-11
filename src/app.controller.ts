@@ -1,14 +1,5 @@
-import {
-  Controller,
-  Get,
-  Render,
-  Redirect,
-  Post,
-  Body,
-  Res,
-  Req,
-} from '@nestjs/common';
-import type { Response, Request } from 'express';
+import { Controller, Get, Render, Redirect, Req } from '@nestjs/common';
+import type { Request } from 'express';
 import { UserService } from './users/service/user/user.service';
 
 @Controller('mystore')
@@ -73,5 +64,15 @@ export class AppController {
     }
 
     return { user };
+  }
+}
+
+// Root controller for handling / route
+@Controller()
+export class RootController {
+  @Get()
+  @Redirect('/mystore/home', 302)
+  redirectToStore() {
+    return { url: '/mystore/home' };
   }
 }

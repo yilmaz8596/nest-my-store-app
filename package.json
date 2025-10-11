@@ -6,7 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "nest build && npm run copy-assets",
+    "copy-assets": "node -e \"const fs=require('fs-extra'); fs.copySync('public', 'dist/public'); fs.copySync('views', 'dist/views');\"",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "seed": "ts-node src/scripts/seed.ts",
     "start": "nest start",
@@ -32,6 +33,7 @@
     "connect-sqlite3": "^0.9.16",
     "cookie-parser": "^1.4.7",
     "ejs": "^3.1.10",
+    "fs-extra": "^11.3.2",
     "method-override": "^3.0.0",
     "multer": "^2.0.2",
     "pg": "^8.16.3",
