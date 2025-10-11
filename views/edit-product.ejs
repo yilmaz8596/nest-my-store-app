@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Product - My Store</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body
+    style="overflow-x: hidden; min-height: 100vh"
+    class="d-flex flex-column"
+  >
+    <%- include('./includes/navbar.ejs') %>
+
+    <div class="container-fluid flex-grow-1 d-flex align-items-center py-3">
+      <div class="row justify-content-center w-100">
+        <div class="col-md-8 col-lg-6">
+          <div class="card shadow mx-auto" style="max-width: 600px">
+            <div class="card-header bg-warning text-dark py-2 text-center">
+              <h4 class="card-title mb-0">
+                <i class="fas fa-edit"></i> Edit Product
+              </h4>
+            </div>
+            <div class="card-body py-3">
+              <form
+                action="/mystore/products/<%= product.id %>/update"
+                method="POST"
+                enctype="multipart/form-data"
+              >
+                <div class="row">
+                  <!-- Left Column -->
+                  <div class="col-md-6">
+                    <!-- Product Name -->
+                    <div class="mb-2">
+                      <label for="name" class="form-label small fw-bold">
+                        <i class="fas fa-tag"></i> Product Name
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control form-control-sm"
+                        id="name"
+                        name="name"
+                        value="<%= product.name %>"
+                        placeholder="Enter product name"
+                        required
+                      />
+                    </div>
+
+                    <!-- Product Price -->
+                    <div class="mb-2">
+                      <label for="price" class="form-label small fw-bold">
+                        <i class="fas fa-dollar-sign"></i> Price
+                      </label>
+                      <div class="input-group input-group-sm">
+                        <span class="input-group-text">$</span>
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="price"
+                          name="price"
+                          value="<%= product.price %>"
+                          placeholder="0.00"
+                          step="0.01"
+                          min="0"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <!-- Current Image Display -->
+                    <div class="mb-2">
+                      <label class="form-label small fw-bold">
+                        <i class="fas fa-image"></i> Current Image
+                      </label>
+                      <div class="text-center">
+                        <img
+                          src="<%= product.img %>"
+                          alt="<%= product.name %>"
+                          class="img-thumbnail"
+                          style="max-height: 120px; max-width: 100%"
+                        />
+                      </div>
+                    </div>
+
+                    <!-- New Product Image -->
+                    <div class="mb-2">
+                      <label for="image" class="form-label small fw-bold">
+                        <i class="fas fa-upload"></i> Change Image
+                      </label>
+                      <input
+                        type="file"
+                        class="form-control form-control-sm"
+                        id="image"
+                        name="image"
+                        accept="image/*"
+                      />
+                      <div class="form-text small">
+                        Choose new image file (optional)
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Right Column -->
+                  <div class="col-md-6">
+                    <!-- Product Description -->
+                    <div class="mb-2">
+                      <label for="description" class="form-label small fw-bold">
+                        <i class="fas fa-align-left"></i> Description
+                      </label>
+                      <textarea
+                        class="form-control form-control-sm"
+                        id="description"
+                        name="description"
+                        rows="4"
+                        placeholder="Enter product description"
+                        required
+                      >
+<%= product.description %></textarea
+                      >
+                    </div>
+
+                    <!-- Image URL Alternative -->
+                    <div class="mb-2">
+                      <label for="imageUrl" class="form-label small fw-bold">
+                        <i class="fas fa-link"></i> Or New Image URL
+                      </label>
+                      <input
+                        type="url"
+                        class="form-control form-control-sm"
+                        id="imageUrl"
+                        name="imageUrl"
+                        placeholder="https://example.com/image.jpg"
+                      />
+                      <div class="form-text small">
+                        Or provide new direct image link
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Form Buttons -->
+                <div class="row mt-3">
+                  <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                      <a href="/mystore/home" class="btn btn-secondary btn-sm">
+                        <i class="fas fa-arrow-left"></i> Back to Store
+                      </a>
+                      <div>
+                        <% if(user && user.role === 'admin') { %>
+                          <!-- Admin: Show Edit and Delete buttons -->
+                          <button type="submit" class="btn btn-success btn-sm me-2">
+                            <i class="fas fa-save"></i> Update Product
+                          </button>
+                          <button 
+                            type="button" 
+                            class="btn btn-danger btn-sm"
+                            onclick="if(confirm('Are you sure you want to delete this product?')) { document.getElementById('deleteForm').submit(); }"
+                          >
+                            <i class="fas fa-trash"></i> Delete
+                          </button>
+                        <% } else { %>
+                          <!-- Non-admin: Show Buy button -->
+                          <button type="button" class="btn btn-primary btn-sm">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                          </button>
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              
+              <!-- Hidden delete form for admin -->
+              <% if(user && user.role === 'admin') { %>
+              <form id="deleteForm" action="/mystore/products/<%= product.id %>/delete" method="POST" style="display: none;">
+              </form>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
