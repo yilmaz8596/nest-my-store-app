@@ -9,6 +9,7 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import { AllExceptionsFilter } from './common/filters/http-exception/http-exception.filter';
 import connectSqlite3 from 'connect-sqlite3';
+import { existsSync, readdirSync } from 'fs';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -51,8 +52,8 @@ async function bootstrap() {
   // Configure static assets path for production/development
   // Check if we're in a build directory (production) or source directory (development)
   const isProduction = __dirname.includes('dist') || process.env.RENDER;
-  
-  const publicPath = isProduction 
+
+  const publicPath = isProduction
     ? join(__dirname, 'public') // In production, files are copied to dist/public
     : join(__dirname, '..', 'public'); // In development, files are in project root
 
@@ -66,6 +67,16 @@ async function bootstrap() {
   console.log('🗂️  __dirname:', __dirname);
   console.log('🗂️  NODE_ENV:', process.env.NODE_ENV);
   console.log('🗂️  RENDER env var:', process.env.RENDER);
+
+  // Check if files exist
+  console.log('🗂️  Views directory exists:', existsSync(viewsPath));
+  console.log('🗂️  Public directory exists:', existsSync(publicPath));
+  if (existsSync(viewsPath)) {
+    console.log('🗂️  Views directory contents:', readdirSync(viewsPath));
+  }
+  if (existsSync(publicPath)) {
+    console.log('🗂️  Public directory contents:', readdirSync(publicPath));
+  }
 
   // Add additional static file serving for images specifically
   app.use('/images', express.static(join(publicPath, 'images')));
