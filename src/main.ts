@@ -68,7 +68,6 @@ async function bootstrap() {
   console.log('🗂️  NODE_ENV:', process.env.NODE_ENV);
   console.log('🗂️  RENDER env var:', process.env.RENDER);
 
-  // Check if files exist
   console.log('🗂️  Views directory exists:', existsSync(viewsPath));
   console.log('🗂️  Public directory exists:', existsSync(publicPath));
   if (existsSync(viewsPath)) {
