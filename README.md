@@ -13,7 +13,13 @@ A full-stack e-commerce web application built with NestJS, TypeORM, SQLite, and 
 - **Session Management**: SQLite-backed session storage
 - **Validation**: Class-validator for DTOs and request validation
 
-## 🛠️ Tech Stack
+## � Project Scope / Disclaimer
+
+This repository is an educational/demo project created to demonstrate backend architecture, authentication, deployment workflows, and working with NestJS and TypeORM. It is intentionally scoped to showcase technical patterns and deployment; **payment processing (Stripe/PayPal or similar) is not implemented**.
+
+If you want to add payment integration or other production-grade features (email notifications, real inventory management, analytics), see the "Contributing" section and feel free to open an issue or PR.
+
+## �🛠️ Tech Stack
 
 - **Backend**: NestJS, TypeScript
 - **Database**: SQLite with TypeORM
