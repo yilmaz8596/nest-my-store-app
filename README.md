@@ -286,6 +286,10 @@ The application starts with an empty database. To add sample data:
 2. Manually update the user's role to 'admin' in the database
 3. Use the admin interface to add products
 
+## ⭐ Give a Star!
+
+If you found this project helpful or interesting, please consider giving it a ⭐ on GitHub! Your support helps others discover this project and motivates continued development.
+
 ---
 
 Built with ❤️ using NestJS
